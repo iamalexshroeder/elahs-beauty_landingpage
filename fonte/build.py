@@ -91,14 +91,17 @@ def card(s, dup):
 cards = ''.join(card(s, False) for s in SERVICOS)
 cards_dup = ''.join(card(s, True) for s in SERVICOS)
 
-VID_POS = {}   # quadros que viram vídeo curto (posição na grade: número do clipe)
-def res_item(i):
-    if i in VID_POS:
-        k = VID_POS[i]
-        return (f'<li class="res-vid"><img src="img/resultado-video-{k}.webp" width="608" height="760" alt="Vídeo de resultado de cabelo na {NOME}" loading="lazy" decoding="async">'
-                f'<video muted loop playsinline preload="none" aria-hidden="true" data-src="media/resultado-video-{k}.mp4"></video></li>')
-    return f'<li><img src="img/resultado-{i}.webp" srcset="img/resultado-{i}-400.webp 400w, img/resultado-{i}.webp 608w" sizes="(max-width: 900px) 46vw, 304px" width="608" height="760" alt="Resultado de cabelo de cliente da {NOME}" loading="lazy" decoding="async"></li>'
-res = ''.join(res_item(i) for i in range(1, 9))
+RESULTADOS = [  # arquivo (sem extensão), texto alternativo
+    ('res-ondas', 'Cliente com ondas e mechas iluminadas'),
+    ('res-unhas', 'Unhas em tom vinho com acabamento brilhante'),
+    ('res-noiva', 'Noiva com penteado e maquiagem feitos no estúdio'),
+    ('resultado-4', 'Cliente com loiro platinado em ondas'),
+    ('res-maquiagem', 'Cliente com cachos definidos e maquiagem'),
+    ('res-cilios', 'Cliente com extensão de cílios e tranças'),
+    ('res-pes', 'Pés com esmaltação clara'),
+    ('resultado-8', 'Mechas platinadas em ondas, vistas de costas'),
+]
+res = ''.join(f'<li><img src="img/{f}.webp" srcset="img/{f}-400.webp 400w, img/{f}.webp 608w" sizes="(max-width: 900px) 46vw, 304px" width="608" height="760" alt="{a}" loading="lazy" decoding="async"></li>' for f, a in RESULTADOS)
 
 KNOB = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 ba = ''.join(f'''<li class="ba-item">
@@ -207,7 +210,7 @@ BODY = f'''
   <section class="res" id="resultados" aria-labelledby="res-t">
     <div class="wrap">
       <div class="sec-head" data-stagger>
-        <div class="head"><h2 id="res-t">Resultados</h2><p class="lead">Clientes atendidas aqui no estúdio. Tem muito mais no nosso Instagram.</p></div>
+        <div class="head"><h2 id="res-t">Resultados</h2><p class="lead">Cabelo, unhas, cílios e maquiagem feitos aqui no estúdio. Tem muito mais no Instagram.</p></div>
         <a class="btn btn-rosa-claro" href="{IG}" {EXT}>Ver mais no Instagram</a>
       </div>
       <ul class="res-grid" data-stagger>{res}</ul>
