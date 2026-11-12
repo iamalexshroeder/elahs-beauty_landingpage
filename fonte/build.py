@@ -104,7 +104,7 @@ KNOB = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l-6 6 6 6M15 6l
 ba = ''.join(f'''<li class="ba-item">
   <img src="img/depois-{i}.webp" width="480" height="624" alt="Depois: transformação {i} feita na {NOME}" loading="lazy" decoding="async">
   <div class="ba-before"><img src="img/antes-{i}.webp" width="480" height="624" alt="Antes: transformação {i}" loading="lazy" decoding="async"></div>
-  <span class="ba-line"></span><span class="ba-knob">{KNOB}</span><span class="ba-tag a" aria-hidden="true">Antes</span><span class="ba-tag d" aria-hidden="true">Depois</span>
+  <span class="ba-line"></span><span class="ba-knob">{KNOB}</span><span class="ba-grab" aria-hidden="true"></span><span class="ba-tag a" aria-hidden="true">Antes</span><span class="ba-tag d" aria-hidden="true">Depois</span>
   <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="Comparar antes e depois da transformação {i}">
 </li>''' for i in range(1, 6))
 
@@ -200,7 +200,7 @@ BODY = f'''
       <div class="ba-nav"><button type="button" id="baPrev" aria-label="Transformação anterior"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><button type="button" id="baNext" aria-label="Próxima transformação"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
     </div>
     <ul class="ba-row" id="baRow" aria-label="Comparações de antes e depois" data-reveal data-slide>{ba}</ul>
-    <div class="wrap"><p class="ba-hint" aria-hidden="true">Arraste a alça para comparar · deslize para ver as 5</p>
+    <div class="wrap"><p class="ba-hint" aria-hidden="true">Arraste a alça para comparar. Deslize a foto para ver as 5.</p>
       <a class="btn btn-primary ba-cta" href="{W_TRANSF}" {EXT}>Quero minha transformação</a></div>
   </section>
 

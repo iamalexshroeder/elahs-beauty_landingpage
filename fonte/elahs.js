@@ -24,22 +24,26 @@
     }
   }
 
-  // ANTES E DEPOIS: alça arrastável (mouse em qualquer ponto; no toque, pela alça ou com um toque na imagem)
+  // ANTES E DEPOIS: a alça (faixa central) compara; arrastar a foto rola a fileira
   [].slice.call(document.querySelectorAll('.ba-item')).forEach(function(it){
-    var r=it.querySelector('.ba-range');
+    var r=it.querySelector('.ba-range'), g=it.querySelector('.ba-grab');
     var set=function(v){ v=Math.max(0,Math.min(100,v)); it.style.setProperty('--p',v+'%'); r.value=Math.round(v); };
     r.addEventListener('input',function(){ set(+r.value); });
-    var drag=false, startX=0, startY=0, moved=false, touch=false;
+    var drag=false;
     var pos=function(e){ var b=it.getBoundingClientRect(); return (e.clientX-b.left)/b.width*100; };
-    it.addEventListener('pointerdown',function(e){
-      touch=e.pointerType!=='mouse'; startX=e.clientX; startY=e.clientY; moved=false;
-      var b=it.getBoundingClientRect(), hx=b.left+b.width*(+r.value)/100;
-      if(!touch || Math.abs(e.clientX-hx)<36){ drag=true; it.classList.add('dragging'); it.setPointerCapture(e.pointerId); if(!touch) set(pos(e)); e.preventDefault(); }
-    });
-    it.addEventListener('pointermove',function(e){ if(Math.abs(e.clientX-startX)>6||Math.abs(e.clientY-startY)>6) moved=true; if(drag) set(pos(e)); });
-    var end=function(e){ if(drag){ drag=false; it.classList.remove('dragging'); } else if(touch&&!moved){ set(pos(e)); } };
-    it.addEventListener('pointerup',end); it.addEventListener('pointercancel',function(){ drag=false; it.classList.remove('dragging'); });
+    g.addEventListener('pointerdown',function(e){ drag=true; it.classList.add('dragging'); try{ g.setPointerCapture(e.pointerId); }catch(_){} e.preventDefault(); e.stopPropagation(); });
+    g.addEventListener('pointermove',function(e){ if(drag) set(pos(e)); });
+    var end=function(){ drag=false; it.classList.remove('dragging'); };
+    g.addEventListener('pointerup',end); g.addEventListener('pointercancel',end); g.addEventListener('lostpointercapture',end);
   });
+  // com mouse: arrastar a fileira para os lados
+  (function(){
+    var row=document.getElementById('baRow'); if(!row) return;
+    var down=false, sx=0, sl=0, moved=false;
+    row.addEventListener('pointerdown',function(e){ if(e.pointerType!=='mouse'||e.button!==0||e.target.closest('.ba-grab')) return; down=true; moved=false; sx=e.clientX; sl=row.scrollLeft; });
+    window.addEventListener('pointermove',function(e){ if(!down) return; var dx=e.clientX-sx; if(Math.abs(dx)>4&&!moved){ moved=true; row.classList.add('grabbing'); } if(moved) row.scrollLeft=sl-dx; });
+    window.addEventListener('pointerup',function(){ if(!down) return; down=false; if(moved){ row.classList.remove('grabbing'); } });
+  })();
   var row=document.getElementById('baRow'), prev=document.getElementById('baPrev'), next=document.getElementById('baNext');
   if(row&&prev&&next){
     var step=function(){ var it=row.querySelector('.ba-item'); return it?it.getBoundingClientRect().width+24:420; };

@@ -125,3 +125,11 @@ video.hero-bg{object-position:50% 42%}
 .hero-sub,.lead{text-wrap:balance}
 .hero-sub{max-width:30em}
 .base{border-top:0;padding-top:0}
+
+/* ANTES E DEPOIS v2: alça dedicada para comparar; a foto arrasta a fileira */
+.ba-item{touch-action:pan-x pan-y;cursor:grab}
+.ba-row.grabbing{scroll-snap-type:none;cursor:grabbing}
+.ba-row.grabbing .ba-item{cursor:grabbing}
+.ba-grab{position:absolute;z-index:3;top:0;bottom:0;left:var(--p);width:64px;margin-left:-32px;cursor:ew-resize;touch-action:none}
+.ba-range{position:absolute;inset:auto;left:0;bottom:0;width:1px;height:1px;opacity:0;pointer-events:none}
+.ba-range:focus-visible{opacity:0}
