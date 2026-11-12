@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://elahsbeauty.com.br/sitemap.xml

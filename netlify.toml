@@ -1,0 +1,9 @@
+[build]
+  publish = "site"
+  command = ""
+
+[[redirects]]
+  from = "https://www.elahsbeauty.com.br/*"
+  to = "https://elahsbeauty.com.br/:splat"
+  status = 301
+  force = true
